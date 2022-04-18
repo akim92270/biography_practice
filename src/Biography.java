@@ -8,17 +8,13 @@ public class Biography {
          * WORK ON BOOK AND AUTHOR CLASSES FIRST
          This will be our actual program that we define author and his books
          In this program we will write the biography of Stefan Zweig, an Austrian novelist.
-
-
          Write a program that will get information from user and
          -Print information for the favorite author
          -Print information of the books of favorite author
-
          Full name = Stefan Zweig
          County = Austria
          Is still alive: No (28 November 1881 – 22 February 1942)
          Some of his books as listed below:
-
          BookName                            Genre           TotalPage
          Amok                                tale            189
          The Royal Game                      novella         53
@@ -35,62 +31,55 @@ public class Biography {
          */
 
         //YOUR CODE HERE
-
         Scanner scan = new Scanner(System.in);
-        ArrayList<Book> books = new ArrayList<>();
 
         System.out.println(AuthorQuestions.firstName);
         String firstName = scan.next();
 
         System.out.println(AuthorQuestions.lastName);
         String lastName = scan.next();
-        scan.nextLine();
 
         System.out.println(AuthorQuestions.authorFrom);
-        String authorCountry = scan.nextLine();
+        String country = scan.next();
 
         System.out.println(AuthorQuestions.authorAlive);
-        boolean authorAlive = scan.next().toUpperCase().startsWith("Y");
+        boolean isAlive = scan.next().toLowerCase().startsWith("y"); // Y/N --> yes, no NO No
 
-        int authorAge = 0;
-        if (authorAlive) {
+        int age = 0;
+        if (isAlive) {
             System.out.println(AuthorQuestions.authorAge);
-            authorAge = scan.nextInt();
+            age = scan.nextInt();
         }
 
-        String bookInfo;
-
+        ArrayList<Book> books = new ArrayList<>();
+        String bookInformation = "";
         do {
             System.out.println(BookQuestions.bookInfo);
-            bookInfo = scan.nextLine();
-
-            if (bookInfo.toUpperCase().startsWith("N")) break;
-            else if (bookInfo.toUpperCase().startsWith("Y")) {
-
+            bookInformation = scan.next();
+            if (bookInformation.toLowerCase().startsWith("y")) {
                 System.out.println(BookQuestions.bookName);
+                scan.nextLine();
                 String bookName = scan.nextLine();
 
                 System.out.println(BookQuestions.bookGenre);
-                String bookGenre = scan.nextLine();
+                String bookGenre = scan.next();
 
                 System.out.println(BookQuestions.bookPages);
-                int bookPages = scan.nextInt();
+                int totalPage = scan.nextInt();
 
-                Book book = new Book(bookName, bookGenre, bookPages);
-                books.add(book);
-
+                books.add(new Book(bookName, bookGenre, totalPage));
             }
-        }
-        while (bookInfo.toUpperCase().startsWith("Y"));
+        } while (bookInformation.toLowerCase().startsWith("y"));
 
-        Author author = new Author(firstName, lastName, authorCountry, authorAlive, authorAge, books);
+
+        Author author = new Author(firstName, lastName, country, isAlive, age, books);
+
         System.out.println("Author's information = " + author);
 
-        if (!books.isEmpty()) {
-            System.out.println("Author's books are as listed below:");
-            for (Book book : books) {
-                System.out.println(book);
-            }
+        System.out.println("Author's books are as listed below:");
+
+        for (Book book: author.bookList) {
+            System.out.println(book);
         }
     }
 }
